@@ -1,0 +1,82 @@
+Attribute VB_Name = "Module1"
+Sub stock_Names_and_volume()
+
+'Hold the names of stock tickers, and value of total stock volume
+Dim StockNames As String
+Dim PercentChange As Double
+Dim StockVolume As Double
+
+StockVolume = 0
+PercentChange = 0
+
+'Hold the Values for the output rows
+Dim StockVolumerow As Integer
+Dim StockNamesRow As Integer
+Dim LastRow As Long
+
+'Set the value for the rows
+LastRow = Cells(Rows.Count, 1).End(xlUp).Row
+
+StockNamesRow = 2
+StockVolumerow = 2
+
+
+    'Loop through all the stock names
+        For i = 2 To LastRow
+    'Check for change in stock names
+            If Cells(i + 1, 1).Value <> Cells(i, 1).Value Then
+     'Set the stock ticker name
+                StockNames = Cells(i, 1).Value
+      'Add to the stock volume total
+                StockVolume = StockVolume + Cells(i, 7).Value
+     'Print the stock name to the "Ticker" row
+                Range("I" & StockNamesRow).Value = StockNames
+    'Print the Stock Volume total to the "Total Stock Volume" row
+                Range("L" & StockVolumerow).Value = StockVolume
+    'Increase the row # for the stock names row
+                StockNamesRow = StockNamesRow + 1
+     'increase the row # for the stock volume row
+                StockVolumerow = StockVolumerow + 1
+      'Reset the stock volume total
+                StockVolume = 0
+                
+            Else
+                
+                'Add the Stock Volume Total per Stock
+                StockVolume = StockVolume + Cells(i, 7).Value
+                
+            End If
+        
+        Next i
+        
+End Sub
+
+Sub Yearly_Change()
+
+Dim YearlyOpen As Double
+Dim YearlyClose As Double
+Dim YearlyChange As Double
+
+YearlyOpen = 0
+YearlyClose = 0
+YearlyChange = 0
+
+LastRow = Cells(Rows.Count, 1).End(xlUp).Row
+YearlyChangeRow = 2
+
+    For i = 2 To LastRow
+    
+        If Cells(i + 1, 1).Value <> Cells(i, 1).Value Then
+            YearlyOpen = YearlyOpen + Cells(i, 3).Value
+            YearlyClose = YearlyClose + Cells(i, 6).Value
+            YearlyChange = YearlyOpen - YearlyClose
+            Range("J" & YearlyChangeRow).Value = YearlyChange
+            YearlyChangeRow = YearlyChangeRow + 1
+            YearlyChange = 0
+        Else
+            YearlyChange = Range("i,3").Value - Range("i,6").Value
+            
+    Next i
+
+End Sub
+
